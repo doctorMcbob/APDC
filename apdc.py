@@ -3,21 +3,6 @@ apdc.py
 a procedural dungeon crawler
 
 built with the maze builder I made
-
-
-SPEED is number of actions
-
-~ to do list ~
-[?] dynamic floors (not boxes)
-[] rooms
-\ [] item rooms
-  [] shops
-  [] altar
-  [] ...
-[] traps
-[] death
-[] potions
-[] enemies
 """
 import pygame
 from pygame.locals import *
