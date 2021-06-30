@@ -80,7 +80,7 @@ def path_to(maze, p1, p2):
                 if new not in path:
                     paths.append(path.copy() + [new])
     return None
-                
+
 def chase(maze, this, player, enemies):
     path = path_to(maze, this[POS], player[POS])
     if path is not None and len(path) > 2:
@@ -106,7 +106,7 @@ def distance(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
     return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-    
+
 def make_enemies(maze, ent, ext, level=1):
     enemies = []
     spawn_rate = 8 + level // 5
@@ -168,7 +168,6 @@ def players_turn(maze, enemies, player):
         if mov[1] > 0 and slot[2]: _y += 1
         if mov[0] > 0 and slot[3]: _x -= 1
         if mov[0] < 0 and slot[1]: _x += 1
-
         enemy = None
         for nme in enemies:
             if nme[POS] == (_x, _y):
@@ -222,7 +221,6 @@ def drawn_maze(maze, ent, ext, enemies=None, route=None, lit=False):
                             break
     return surf
 
-
 def update_screen(img, PLAYER):
     SCREEN.fill((0, 0, 0))
     SCREEN.blit(img, ((((SCREEN.get_width() / PW) // 2) - X) * PW, (((SCREEN.get_height() / PW) // 2) - Y) * PW))
@@ -262,7 +260,7 @@ while len(DUNGEON) < FLOOR_DEPTH:
 # play --
 PLAYER[POS] = list(DUNGEON[0][1])
 flr = 0
-zoom = 16
+turns = 0
 while flr < FLOOR_DEPTH:
     maze, ent, ext, route = DUNGEON[flr]
     FLR = flr
@@ -276,6 +274,9 @@ while flr < FLOOR_DEPTH:
         update_screen(drawn_maze(maze, ent, ext, enemies=ENEMIES[flr], lit=LIT[flr]), PLAYER)
 
         if players_turn(maze, ENEMIES[flr], PLAYER):
+            turns += 1
+        if turns >= PLAYER[SPEED]:
             update_enemies(maze, ENEMIES[flr], PLAYER, LIT[flr])
+            turns = 0
 
 print("wow you did it!")
